@@ -4,6 +4,9 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
 from . import forms
+import requests
+from django.http import JsonResponse
+from django.core import serializers
 # Create your views here.
 
 def api(request):
@@ -58,3 +61,11 @@ def add_line(request):
     else:
         form = forms.CreateLine
     return render(request, 'api/add_line.html', {'form': form})
+
+def get_lineas(request):
+    print("RESPONDO REQUEST")
+    lineas = Linea.objects.all().order_by('date')
+    data = serializers.serialize("json", lineas)
+    print(data)
+    print("TERMINO RESPUESTA")
+    return JsonResponse(data, safe=False)

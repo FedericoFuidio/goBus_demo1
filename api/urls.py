@@ -8,4 +8,5 @@ urlpatterns = [
     path('login/', views.login_view),
     path('logout/', views.logout_view),
     path('new_line/', views.add_line),
+    path('get_lineas/', views.get_lineas)
 ]
