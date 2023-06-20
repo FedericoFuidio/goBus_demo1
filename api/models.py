@@ -15,3 +15,23 @@ class Linea(models.Model):
     def snippet(self):
         return self.ubicacion[:50] + '...' # Usado si la ubicacion es muy larga
     '''
+
+class Mensaje(models.Model):
+    linea = models.CharField(max_length=100)
+    proxima_parada = models.CharField(max_length=100)
+    tiempo_proxima_parada = models.IntegerField()
+    date = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.linea
+    
+
+class LineaCompleta(models.Model):
+    linea = models.CharField(max_length=100)
+    empresa = models.CharField(max_length=100)
+    recorrido = models.JSONField()
+    date = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.linea
+    
