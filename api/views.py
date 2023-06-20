@@ -88,7 +88,7 @@ def add_mensaje(request):
 
 def get_lineas(request):
     print("RESPONDO REQUEST")
-    lineas = Linea.objects.all().order_by('date')
+    lineas = LineaCompleta.objects.all().order_by('date')
     data = serializers.serialize("json", lineas)
     print(data)
     print("TERMINO RESPUESTA")
