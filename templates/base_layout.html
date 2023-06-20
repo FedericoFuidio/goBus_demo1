@@ -1,0 +1,50 @@
+{% load static %}
+
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <meta-charset:"utf-8">
+        <Title>GoBus</Title>
+        <link rel="stylesheet" href="{% static 'styles.css' %}">
+    </head>
+    <body>
+        <header class="wrapper">
+            <nav>
+                <ul>
+                    <li>
+                        <form class="logout-link" action="/api/" method="get">
+                            {%csrf_token%}
+                            <button type="submit">Inicio</button>
+                        </form>
+                    </li>
+                    {% if user.is_authenticated %}
+                        <li>
+                            <form class="logout-link" action="/api/new_line/" method="get">
+                                {%csrf_token%}
+                                <button type="submit">Agregar Linea</button>
+                            </form>
+                        </li>
+                        <li>
+                            <form class="logout-link" action="/api/logout/" method="post">
+                                {%csrf_token%}
+                                <button type="submit">Salir</button>
+                            </form>
+                        </li>
+                    {%else%}
+                        <li>
+                            <form class="logout-link" action="/api/login/" method="get">
+                                {%csrf_token%}
+                                <button type="submit">Ingresar</button>
+                            </form>
+                        </li>
+                    {%endif%}
+                </ul>
+            </nav>
+        </header>
+        <div class="wrapper">
+            {% block content %}
+            {% endblock %}
+        </div>
+    </body>
+
+</html>
