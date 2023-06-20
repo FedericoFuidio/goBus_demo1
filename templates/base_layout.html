@@ -19,9 +19,15 @@
                     </li>
                     {% if user.is_authenticated %}
                         <li>
-                            <form class="logout-link" action="/api/new_line/" method="get">
+                            <form class="logout-link" action="/api/new_linea_completa/" method="get">
                                 {%csrf_token%}
                                 <button type="submit">Agregar Linea</button>
+                            </form>
+                        </li>
+                        <li>
+                            <form class="logout-link" action="/api/new_mensaje/" method="get">
+                                {%csrf_token%}
+                                <button type="submit">Agregar Mensaje</button>
                             </form>
                         </li>
                         <li>

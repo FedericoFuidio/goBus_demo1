@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .models import Linea
+from .models import Linea, LineaCompleta, Mensaje
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
@@ -10,7 +10,7 @@ from django.core import serializers
 # Create your views here.
 
 def api(request):
-    lineas = Linea.objects.all().order_by('date')
+    lineas = LineaCompleta.objects.all().order_by('date')
     return render(request, 'api/api.html', {'lineas': lineas})
 
 def signup_view(request):
@@ -62,10 +62,50 @@ def add_line(request):
         form = forms.CreateLine
     return render(request, 'api/add_line.html', {'form': form})
 
+@login_required(login_url="/api/login")
+def add_linea_completa(request):
+    if(request.method == 'POST'):
+        form = forms.CreateLineaCompleta(request.POST)
+        if(form.is_valid()):
+            #save line to db and send to Aplication
+            form.save()
+            return redirect('/api/')
+    else:
+        form = forms.CreateLineaCompleta
+    return render(request, 'api/add_linea_completa.html', {'form': form})
+
+@login_required(login_url="/api/login")
+def add_mensaje(request):
+    if(request.method == 'POST'):
+        form = forms.CreateMensaje(request.POST)
+        if(form.is_valid()):
+            #save line to db and send to Aplication
+            form.save()
+            return redirect('/api/')
+    else:
+        form = forms.CreateMensaje
+    return render(request, 'api/add_mensaje.html', {'form': form})
+
 def get_lineas(request):
     print("RESPONDO REQUEST")
     lineas = Linea.objects.all().order_by('date')
     data = serializers.serialize("json", lineas)
+    print(data)
+    print("TERMINO RESPUESTA")
+    return JsonResponse(data, safe=False)
+
+def get_lineas_completas(request):
+    print("RESPONDO REQUEST")
+    lineasCompletas = LineaCompleta.objects.all().order_by('date')
+    data = serializers.serialize("json", lineasCompletas)
+    print(data)
+    print("TERMINO RESPUESTA")
+    return JsonResponse(data, safe=False)
+
+def get_mensajes(request):
+    print("RESPONDO REQUEST")
+    mensajes = Mensaje.objects.all().order_by('date')
+    data = serializers.serialize("json", mensajes)
     print(data)
     print("TERMINO RESPUESTA")
     return JsonResponse(data, safe=False)
